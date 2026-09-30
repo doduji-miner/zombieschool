@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>좀비 학교 탈출</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <header class="title">
+    <div class="title-text">
+      <h1><span class="title-emoji" aria-hidden="true">🧟</span> 좀비 학교 탈출</h1>
+      <p class="subtitle">해독제를 챙겨서 대피소까지, 좀비보다 한 발 앞서 움직이세요.</p>
+    </div>
+    <button type="button" class="reset" id="reset-btn">🔄 초기화</button>
+  </header>
+
+  <main class="layout">
+    <!-- ---- 지도 ---- -->
+    <section class="board" aria-label="학교 지도">
+      <svg id="map" viewBox="0 0 800 500" role="img" aria-label="8개 구역과 11개 통로가 있는 학교 지도"></svg>
+      <p class="map-hint" id="map-hint">밝게 빛나는 구역을 누르면 이동, 노랗게 빛나는 통로를 누르면 바리케이드를 칩니다.</p>
+    </section>
+
+    <!-- ---- 옆 패널 ---- -->
+    <aside class="panel">
+      <section class="block mission">
+        <h2>미션</h2>
+        <ol class="mission-list">
+          <li id="mission-1"><span class="check" aria-hidden="true"></span>과학실에서 해독제를 확보</li>
+          <li id="mission-2"><span class="check" aria-hidden="true"></span>해독제를 들고 대피소로 이동</li>
+        </ol>
+      </section>
+
+      <section class="block stats">
+        <div class="stat">
+          <h2>바리케이드</h2>
+          <p class="bars" id="bar-count" aria-live="polite"></p>
+        </div>
+        <div class="stat">
+          <h2>이동 거리</h2>
+          <p class="big" id="move-count">0</p>
+        </div>
+        <div class="stat">
+          <h2>턴</h2>
+          <p class="big" id="turn-count">1</p>
+        </div>
+      </section>
+
+      <section class="block where">
+        <h2>현재 위치</h2>
+        <p class="here" id="current-place">교실</p>
+        <p class="zombie-where" id="zombie-place"></p>
+
+        <h3>이동하기</h3>
+        <div class="choices" id="move-buttons"></div>
+
+        <h3>바리케이드 치기</h3>
+        <div class="choices" id="bar-buttons"></div>
+      </section>
+
+      <details class="block help" open>
+        <summary>도움말</summary>
+        <ul>
+          <li>한 턴에 <b>이동 한 칸</b> 또는 <b>바리케이드 하나</b> 중 하나만 할 수 있어요. 그다음 좀비가 한 칸 움직입니다.</li>
+          <li>바리케이드는 <b>지도의 어느 통로에나</b>, 게임 전체에서 <b>2번</b>까지 칠 수 있어요. 막힌 통로는 나도 좀비도 못 지나갑니다.</li>
+          <li>좀비는 항상 <b>체육관</b>에서 나타나요. 좀비는 막히지 않은 통로를 따라 <b>나에게 가장 가까운 길</b>로 다가와요. 길이 전부 막히면 제자리에 멈춥니다.</li>
+          <li>과학실에 들어가면 해독제를 자동으로 챙겨요. 그 상태로 대피소에 도착하면 승리!</li>
+          <li>좀비와 같은 구역에 있게 되면 패배입니다.</li>
+          <li>바리케이드 때문에 <b>과학실이나 대피소로 가는 길이 완전히 끊기면</b> 더 이상 이길 수 없으니 잠시 뒤 <b>자동으로 초기화</b>돼요.</li>
+        </ul>
+      </details>
+
+      <section class="block log">
+        <h2>상황 기록</h2>
+        <ol class="log-list" id="log-list" aria-live="polite"></ol>
+      </section>
+    </aside>
+  </main>
+
+  <!-- ---- 결과 창 ---- -->
+  <div class="overlay" id="overlay" hidden>
+    <div class="overlay-box" role="dialog" aria-modal="true" aria-labelledby="overlay-title">
+      <p class="overlay-emoji" id="overlay-emoji"></p>
+      <h2 id="overlay-title"></h2>
+      <p id="overlay-text"></p>
+      <p class="overlay-countdown" id="overlay-countdown" hidden></p>
+      <button type="button" class="reset" id="overlay-reset">🔄 다시 하기</button>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>
